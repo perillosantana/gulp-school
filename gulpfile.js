@@ -1,21 +1,26 @@
 var gulp = require('gulp');
-var stylus = require('gulp-stylus');
 var watch = require('gulp-watch');
+var less = require('gulp-less');
+var path = require('path');
 
 gulp.task('teste', function(){
 	console.log("teste de task do GulpJS");
+
+	console.log(path);
 });
 
-gulp.task('stylus', function(){
-  gulp.src('src/stylus/**/**.styl')
-    .pipe(stylus())
-    .pipe(gulp.dest('build/css'))
+gulp.task('less', function () {
+	gulp.src('less/**/*.less')
+    .pipe(less({
+      paths: [ path.join(__dirname, 'less', 'includes') ]
+    }))
+    .pipe(gulp.dest('css'));
 });
 
 // Rerun the task when a file changes
-// gulp.task('watch', function() {
-//   gulp.watch(paths.stylus, ['stylus']);
-//   gulp.watch(paths.teste, ['teste']);
-// });
+gulp.task('watch', function() {
+  gulp.watch('less');
+  gulp.watch('teste');
+});
 
-gulp.task('default', ['teste', 'stylus']);
+gulp.task('default', ['watch']);
