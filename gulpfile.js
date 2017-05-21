@@ -1,26 +1,20 @@
 var gulp = require('gulp');
 var watch = require('gulp-watch');
+var notify = require("gulp-notify");
+var plumber = require('gulp-plumber');
+
+
+// LESS
 var less = require('gulp-less');
-var path = require('path');
-
-gulp.task('teste', function(){
-	console.log("teste de task do GulpJS");
-
-	console.log(path);
-});
-
 gulp.task('less', function () {
-	gulp.src('less/**/*.less')
-    .pipe(less({
-      paths: [ path.join(__dirname, 'less', 'includes') ]
-    }))
-    .pipe(gulp.dest('css'));
+	return gulp.src('less/*.less')
+	.pipe(plumber(function(e) {
+		console.log(e);
+	}))
+	.pipe(less())
+	// .pipe(watch('less/*.less'))
+	// .pipe(gulp.dest('css'))
+	// .pipe(notify('LESS Compilado: <%= file.relative %>'));
 });
 
-// Rerun the task when a file changes
-gulp.task('watch', function() {
-  gulp.watch('less');
-  gulp.watch('teste');
-});
-
-gulp.task('default', ['watch']);
+gulp.task('default', ['less']);
